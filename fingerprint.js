@@ -4,6 +4,7 @@ var crypto = require('crypto');
 var csv = require('ya-csv');
 var source = process.argv[2] || process.cwd();
 var writer = csv.createCsvFileWriter('log.csv');
+var counter = 1;
 
 var walk = function(dir, done) {
   var results = [];
@@ -25,6 +26,12 @@ var walk = function(dir, done) {
             next();
           });
         } else {
+          
+          process.stdout.write(String(counter++));
+          for(var i =0; i<=counter; i++){
+            process.stdout.write('\b');
+          }
+
           var s = fs.ReadStream(file);
           s.on('data', function(d) {shasum.update(d);});
           s.on('end', function(){
@@ -50,8 +57,9 @@ walk(source, function(err, results) {
   });
 
   for(var re = 0; re < results.length; re++) {
-    console.log(path.normalize(results[re]));
+  //  console.log(path.normalize(results[re]));
   }
+  process.stdout.write('\n');
   console.log("number of files: " + results.length);
 });
 
