@@ -3,8 +3,10 @@ var path = require('path');
 var crypto = require('crypto');
 var csv = require('ya-csv');
 var source = process.argv[2] || process.cwd();
-var writer = csv.createCsvFileWriter('log.csv');
+var logName = process.argv[3] || "log";
+var writer = csv.createCsvFileWriter(logName + '.csv');
 var counter = 1;
+
 
 var walk = function(dir, done) {
   var results = [];
